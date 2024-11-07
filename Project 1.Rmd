@@ -1,0 +1,53 @@
+---
+title: "WNBA Stats from 2019"
+output: html_document
+date: "2024-10-25"
+author: "Tade Scheid"
+---
+
+```{r}
+library(ggplot2)
+library(janitor)
+library(ggrepel)
+```
+
+# Imported data set
+```{r}
+wnbastats <- read.csv("wnba-player-stats.csv")
+clean.wnbastats <-remove_empty(wnbastats)
+```
+
+# Visualizations
+
+```{r pressure, echo=FALSE}
+ggplot(clean.wnbastats, aes(x= Age, y= PER)) +
+  xlim(0, 50) +
+  ggtitle ("Player Efficiency Rating vs Age for WNBA 2019 Season") +
+  ylab("Player Efficiency Rating") +
+  geom_point(size = 2.0) +
+  geom_smooth() +
+  geom_label_repel(aes(label = Player), max.overlaps = 25)
+```
+
+Demonstrates the relationship between age and Player Efficiency Rating in the WNBA. The bell curve of this graph shows that the optimal age range to play in the WNBA is in the mid 20s. The lower age range of the graph is related to a player efficiency rating which reflects the inexperience of the player. On the opposite end, the older age ranges also have a lower player efficiency rating. This reflects how age takes a toll on players and their performance. There are exceptions to the trend which are highlighted with labels.    
+
+
+```{r}
+ggplot(clean.wnbastats[clean.wnbastats$Pos %in% c("C", "C-F", "F", "F-C", "F-G", "G", "G-F" ), ],  aes(x= Pos, y= ThrPAr, )) +
+  xlab("Positions") +
+  ylab("Three-point Attempt Rate") +
+  ggtitle("Positions vs Three-point Attempt Rate for WNBA 2019 Season") +
+  scale_x_discrete(labels = c("Center", "Center-Forward", "Forward", "Forward-Center", "Forward-Guard", "Guard", "Guard-Forward"))+
+  geom_boxplot()
+```
+
+This graph shows how guards have a much higher Three-point attempt rate than forwards and centers. The line in the middle shows the median Three-point attempts, the top is the higher quartile, and the lower line is the lower quartile. The dots are the outliers which helps to read the data without outliers affecting the data. Guards have the highest attempt rate which makes sense because their position is stationed around the three point range and their main goal is to shoot. On the otherhand, centers are often playing in the center of the arc, not near the three-point range. Also, 41 NA's were removed from the data to make this graph. 
+ 
+# Revisions
+I revised my first graph by changing the y axis from total win shares to player efficiency rating. I added a smooth line to see the trend of the points. I also named the outliers with the player who the dot represents in the graph to inform the audience of who specifically was the outlier. I changed the title to reflect these changes as well. In my second graph, I added the full names of the positions to clarify what the abbreviations meant. I also made the title more specific to give the audience a better idea of what the graph is displaying. 
+```{r}
+
+```
+ 
+# Citations
+https://github.com/fivethirtyeight/WNBA-stats/blob/master/wnba-player-stats.csv
