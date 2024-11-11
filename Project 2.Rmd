@@ -14,7 +14,7 @@ library(ggrepel)
 
 ## Imported Data Set
 ```{r}
-wnbastats <- read.csv("wnba-player-stats.csv")
+wnbastats <- read.csv("data/wnba-player-stats.csv")
 clean.wnbastats <-remove_empty(wnbastats)
 ```
 
