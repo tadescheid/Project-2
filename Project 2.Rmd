@@ -1,0 +1,54 @@
+---
+title: "Project 2"
+output: html_document
+date: "2024-11-10"
+author: "Tade Scheid"
+---
+
+## Libraries
+```{r}
+library(ggplot2)
+library(janitor)
+library(ggrepel)
+```
+
+## Imported Data Set
+```{r}
+wnbastats <- read.csv("wnba-player-stats.csv")
+clean.wnbastats <-remove_empty(wnbastats)
+```
+
+## New Visual
+```{r, fig.width=8, fig.height=5}
+plot.df <- clean.wnbastats[clean.wnbastats$Pos %in% c("C", "C-F", "F", "F-C", "F-G", "G", "G-F" ), ]
+plot.df <- plot.df[order(plot.df$Age), ]
+meanFTr <- function(age, pos){mean(plot.df[plot.df[ , "Age"] == age & plot.df[ , "Pos"] == pos, "FTr"])}
+
+wnbadf <- data.frame("Pos" = character(0), "Age" = numeric(0), "FTr" = numeric(0))
+for(wnbaage in unique(plot.df$Age)){
+  for(wnbapos in unique(plot.df$Pos)){
+    newrow = c(wnbapos, wnbaage, meanFTr(wnbaage, wnbapos)) 
+    wnbadf <- rbind(wnbadf, newrow)
+  }
+}
+
+plot(wnbadf$X..1., wnbadf$X.0.121., type = "n", 
+     xlab = "Age", ylab = "Average Free Throw Rate", 
+    xlim = c(18,50), ylim = c(0, 1), 
+     main = "Average Free Throw Rate over Age by Position")
+
+colorlines <- rainbow(length(unique(wnbadf$X.G.)))
+
+for (i in 1:length(unique(wnbadf$X.G.))) {
+  position = unique(wnbadf$X.G.)[i]
+  lines(wnbadf[wnbadf$X.G. == position, "X..1."], wnbadf[wnbadf$X.G. == position, "X.0.121."], 
+        col = colorlines[i], lwd = 2)
+}
+
+label_dict <- c("C" = "Center", "C-F" = "Center-Forward", "F" = "Forward", "F-C" = "Forward-Center", "F-G" = "Forward-Guard", "G" = "Guard", "G-F" = "Guard-Forward")
+
+legend("topright", legend = label_dict[unique(wnbadf$X.G.)], col = colorlines, lty = 1, lwd = 2)
+
+```
+
+
