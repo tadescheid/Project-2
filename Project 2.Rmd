@@ -53,4 +53,5 @@ legend("topright", legend = label_dict[unique(wnba_df$X.G.)], col = color_lines,
 
 ```
 
-
+## Sources
+https://web.itu.edu.tr/~tokerem/The_Book_of_R.pdf
