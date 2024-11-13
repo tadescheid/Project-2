@@ -14,40 +14,42 @@ library(ggrepel)
 
 ## Imported Data Set
 ```{r}
-wnbastats <- read.csv("data/wnba-player-stats.csv")
-clean.wnbastats <-remove_empty(wnbastats)
+wnba.stats <- read.csv("data/wnba-player-stats.csv")
+clean.wnbastats <-remove_empty(wnba.stats)
 ```
 
 ## New Visual
 ```{r, fig.width=8, fig.height=5}
 plot.df <- clean.wnbastats[clean.wnbastats$Pos %in% c("C", "C-F", "F", "F-C", "F-G", "G", "G-F" ), ]
 plot.df <- plot.df[order(plot.df$Age), ]
-meanFTr <- function(age, pos){mean(plot.df[plot.df[ , "Age"] == age & plot.df[ , "Pos"] == pos, "FTr"])}
+mean_FTr <- function(age, pos){mean(plot.df[plot.df[ , "Age"] == age & plot.df[ , "Pos"] == pos, "FTr"])}
 
-wnbadf <- data.frame("Pos" = character(0), "Age" = numeric(0), "FTr" = numeric(0))
-for(wnbaage in unique(plot.df$Age)){
-  for(wnbapos in unique(plot.df$Pos)){
-    newrow = c(wnbapos, wnbaage, meanFTr(wnbaage, wnbapos)) 
-    wnbadf <- rbind(wnbadf, newrow)
+wnba_df <- data.frame("Pos" = character(0), "Age" = numeric(0), "FTr" = numeric(0))
+for(wnba_age in unique(plot.df$Age)){
+  for(wnba_pos in unique(plot.df$Pos)){
+    newrow = c(wnba_pos, wnba_age, mean_FTr(wnba_age, wnba_pos)) 
+    wnba_df <- rbind(wnba_df, newrow)
   }
 }
 
-plot(wnbadf$X..1., wnbadf$X.0.121., type = "n", 
+plot(wnba_df$X..1., wnba_df$X.0.121., type = "n", 
      xlab = "Age", ylab = "Average Free Throw Rate", 
     xlim = c(18,50), ylim = c(0, 1), 
      main = "Average Free Throw Rate over Age by Position")
 
-colorlines <- rainbow(length(unique(wnbadf$X.G.)))
+color_lines <- rainbow(length(unique(wnba_df$X.G.)))
 
-for (i in 1:length(unique(wnbadf$X.G.))) {
-  position = unique(wnbadf$X.G.)[i]
-  lines(wnbadf[wnbadf$X.G. == position, "X..1."], wnbadf[wnbadf$X.G. == position, "X.0.121."], 
-        col = colorlines[i], lwd = 2)
+for (i in 1:length(unique(wnba_df$X.G.))) {
+  position = unique(wnba_df$X.G.)[i]
+  lines(wnba_df[wnba_df$X.G. == position, "X..1."], 
+        wnba_df[wnba_df$X.G. == position, "X.0.121."], 
+        col = color_lines[i], lwd = 2)
 }
 
-label_dict <- c("C" = "Center", "C-F" = "Center-Forward", "F" = "Forward", "F-C" = "Forward-Center", "F-G" = "Forward-Guard", "G" = "Guard", "G-F" = "Guard-Forward")
+label_dict <- c("C" = "Center", "C-F" = "Center-Forward", "F" = "Forward", "F-C" = "Forward-Center", "F-G" = "Forward-Guard", 
+                "G" = "Guard", "G-F" = "Guard-Forward")
 
-legend("topright", legend = label_dict[unique(wnbadf$X.G.)], col = colorlines, lty = 1, lwd = 2)
+legend("topright", legend = label_dict[unique(wnba_df$X.G.)], col = color_lines, lty = 1, lwd = 2)
 
 ```
 
