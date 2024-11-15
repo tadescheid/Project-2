@@ -35,7 +35,7 @@ for(wnba_age in unique(plot.df$Age)){
 plot(wnba_df$X..1., wnba_df$X.0.121., type = "n", 
      xlab = "Age", ylab = "Average Free Throw Rate", 
     xlim = c(18,50), ylim = c(0, 1), 
-     main = "Average Free Throw Rate over Age by Position")
+     main = "Average Free Throw Rate over Age by Position for WNBA 2019 Season")
 
 color_lines <- rainbow(length(unique(wnba_df$X.G.)))
 
@@ -52,6 +52,9 @@ label_dict <- c("C" = "Center", "C-F" = "Center-Forward", "F" = "Forward", "F-C"
 legend("topright", legend = label_dict[unique(wnba_df$X.G.)], col = color_lines, lty = 1, lwd = 2)
 
 ```
+
+## Changes Made
+I changed the visualization I made by plotting Age vs Average Free Throw Rate on a line graph instead of Age vs Player Efficacy Rating on a scatterplot. I decided to include the element of positions from my second graph in Project 1 by making each line graphed represent a different position. The colored lines were also instead of labeling the outliers with the individual player's name.
 
 ## Sources
 https://web.itu.edu.tr/~tokerem/The_Book_of_R.pdf
