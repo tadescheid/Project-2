@@ -53,8 +53,13 @@ legend("topright", legend = label_dict[unique(wnba_df$X.G.)], col = color_lines,
 
 ```
 
+The graph plots Average Free Throw Rate of each position over Age for the 2019 WNBA Season. The positions it represents by each colored line are Guard, Center, Forward-Center, Forward-Guard, Forward, Guard-Forward, and Center-Forward which are specified in the legend. The graph demonstrates how Center-Forwards have the highest average free throw rates which increase over time. Forward-Guards have the lowest average free throw rates which stays pretty consistant over time. 
+
+
 ## Changes Made
 I changed the visualization I made by plotting Age vs Average Free Throw Rate on a line graph instead of Age vs Player Efficacy Rating on a scatterplot. I decided to include the element of positions from my second graph in Project 1 by making each line graphed represent a different position. The colored lines were also instead of labeling the outliers with the individual player's name.
 
 ## Sources
 https://web.itu.edu.tr/~tokerem/The_Book_of_R.pdf
+https://github.com/fivethirtyeight/WNBA-stats/blob/master/wnba-player-stats.csv
+
